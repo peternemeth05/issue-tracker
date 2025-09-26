@@ -19,7 +19,7 @@ model Issue {
   updatedAt   DateTime @updatedAt
 }
 
-enum Status {
+enum Status { // enum is set of constant values, can set teh status to one of these
   OPEN
   IN_PROGRESS
   CLOSED
