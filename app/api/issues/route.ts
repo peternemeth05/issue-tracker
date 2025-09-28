@@ -6,15 +6,15 @@ import prisma from "@/prisma/ client";
 
 
 const createIssueSchema = z.object({ // this is a blueprint that defines what teh incoming data should look like
-    title: z.string().min(1).max(255), // this is the requirement
-    description: z.string().min(1)
+    title: z.string().min(1, 'Title is required').max(255), // this is the requirement
+    description: z.string().min(1, 'description is required')
 })
 
 export async function POST(request: NextRequest){
     const body = await request.json();
     const validation = createIssueSchema.safeParse(body);
     if (!validation.success)
-        return NextResponse.json(validation.error.errors, {status: 400}) 
+        return NextResponse.json(validation.error.format(), {status: 400}) 
     // this makes sure the input is valid otherwise a 400 error, meaning the client sent invalid data
 
     const newIssue = await prisma.issue.create({
